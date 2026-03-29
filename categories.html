@@ -66,48 +66,123 @@
         .fade-in {
             animation: fadeIn 0.4s ease forwards;
         }
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body class="min-h-screen font-inter">
-    <!-- Header -->
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
                 <a href="homepage.html" class="flex items-center gap-2">
                     <div class="w-10 h-10 bg-jt-brown-100 rounded-xl flex items-center justify-center">
                         <svg class="w-6 h-6 text-jt-brown-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
                         </svg>
                     </div>
-                    <span class="text-xl font-bold text-gray-900">JT Mobamba</span>
+                    <span class="text-lg font-bold text-gray-900">JT Mobamba</span>
                 </a>
-                <nav class="hidden md:flex items-center gap-6">
-                    <a href="homepage.html" class="text-gray-600 hover:text-gray-900">Home</a>
-                    <a href="products.html" class="text-gray-600 hover:text-gray-900">Products</a>
-                    <a href="categories.html" class="text-jt-brown-300 font-medium">Categories</a>
-                    <a href="deals.html" class="text-gray-600 hover:text-gray-900">Deals</a>
-                </nav>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center gap-6">
+                    <a href="homepage.html" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">Home</a>
+                    <a href="categories.html" class="text-sm text-jt-brown-300 font-medium transition-colors">Categories</a>
+                    <a href="products.html" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">Products</a>
+                    <a href="deals.html" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">Deals</a>
+                </div>
+
+                <!-- Right Actions -->
                 <div class="flex items-center gap-3">
+                    <!-- Search -->
+                    <button class="p-2 text-gray-500 hover:text-gray-700 transition-colors" data-search-trigger>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+
+                    <!-- Cart -->
                     <button id="cart-toggle" class="relative p-2 text-gray-500 hover:text-gray-700 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                         </svg>
                         <span class="cart-count absolute -top-1 -right-1 w-4 h-4 bg-jt-brown-300 text-white text-xs font-medium rounded-full items-center justify-center hidden">0</span>
                     </button>
-                    <a href="login.html" class="px-4 py-2 bg-jt-brown-300 text-white font-medium rounded-lg hover:bg-jt-brown-400 transition-colors">Sign In</a>
+
+                    <!-- Sign In -->
+                    <a href="login.html" class="hidden sm:block text-sm text-gray-600 hover:text-gray-900 transition-colors">Sign In</a>
+
+                    <!-- Get Started -->
+                    <a href="login.html" class="hidden sm:block px-4 py-2 bg-jt-brown-300 text-white text-sm font-medium rounded-lg hover:bg-jt-brown-400 transition-colors">
+                        Get Started
+                    </a>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-500 hover:text-gray-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
-    </header>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-72 bg-white shadow-xl lg:hidden z-50">
+            <div class="p-5">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="font-semibold text-gray-900">Menu</span>
+                    <button id="close-menu-btn" class="p-2 text-gray-500 hover:text-gray-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+                <nav class="flex flex-col gap-1">
+                    <a href="homepage.html" class="px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-sm">Home</a>
+                    <a href="categories.html" class="px-3 py-2 text-jt-brown-300 bg-jt-brown-50 rounded-lg text-sm font-medium">Categories</a>
+                    <a href="products.html" class="px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-sm">Products</a>
+                    <a href="deals.html" class="px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-sm">Deals</a>
+                </nav>
+                <div class="mt-6 pt-6 border-t border-gray-100 flex flex-col gap-2">
+                    <a href="login.html" class="w-full py-2.5 text-center text-gray-700 font-medium border border-gray-200 rounded-lg hover:bg-gray-50 text-sm">
+                        Sign In
+                    </a>
+                    <a href="login.html" class="w-full py-2.5 text-center bg-jt-brown-300 text-white font-medium rounded-lg hover:bg-jt-brown-400 text-sm">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <!-- Hero Banner -->
-    <section class="relative bg-jt-brown-700 py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4">Shop by Category</h1>
-            <p class="text-xl text-jt-brown-100 max-w-2xl mx-auto">Browse our curated collection of premium electronics organized by category</p>
-            <div class="flex flex-wrap gap-3 justify-center mt-6">
-                <span id="total-products-badge" class="px-4 py-2 bg-jt-brown-600 text-jt-brown-100 rounded-full text-sm">Loading...</span>
-                <span id="total-categories-badge" class="px-4 py-2 bg-jt-brown-600 text-jt-brown-100 rounded-full text-sm">6 Categories</span>
+    <section class="relative pt-24 pb-16 bg-jt-cream overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-10 left-10 w-72 h-72 bg-jt-brown-300 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-jt-brown-400 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center max-w-3xl mx-auto">
+                <span class="inline-block px-4 py-1.5 bg-jt-brown-100 text-jt-brown-500 rounded-full text-sm font-medium mb-6">Explore Our Collection</span>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
+                    Shop by <span class="text-jt-brown-300">Category</span>
+                </h1>
+                <p class="text-lg text-gray-500 mb-8 max-w-2xl mx-auto">
+                    Browse our curated collection of premium electronics organized by category. Find exactly what you need.
+                </p>
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <span id="total-products-badge" class="px-5 py-2.5 bg-white text-gray-700 rounded-xl text-sm font-medium shadow-sm border border-gray-100">Loading...</span>
+                    <span id="total-categories-badge" class="px-5 py-2.5 bg-jt-brown-300 text-white rounded-xl text-sm font-medium shadow-sm">6 Categories</span>
+                </div>
             </div>
         </div>
     </section>
@@ -420,6 +495,19 @@
                 document.body.style.overflow = '';
             }
         }
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn?.addEventListener('click', () => {
+            mobileMenu.style.transform = 'translateX(0)';
+        });
+
+        closeMenuBtn?.addEventListener('click', () => {
+            mobileMenu.style.transform = 'translateX(100%)';
+        });
     </script>
 </body>
 </html>
