@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - JT Mobamba Electronics</title>
+    <link rel="icon" type="image/svg+xml" href="logo (1).svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                    colors: {
+                        'jt-red': {
+                            500: '#ef4444',
+                            600: '#dc2626',
+                        },
+                        'jt-blue': {
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #dc2626 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes checkmark {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        @keyframes circle-fill {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        .success-checkmark {
+            animation: checkmark 0.6s ease-out 0.3s forwards;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+        }
+
+        .success-circle {
+            animation: circle-fill 0.4s ease-out forwards;
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: fixed;
+            top: -20px;
+            animation: confetti 3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-inter">
+    <!-- Confetti will be added by JavaScript -->
+    <div id="confetti-container"></div>
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center h-16">
+                <a href="homepage.html" class="flex items-center gap-3">
+                    <img src="logo (1).svg" alt="JT Mobamba" class="h-10 w-10 object-contain">
+                    <span class="text-xl font-bold gradient-text">JT Mobamba</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto px-4 py-16 text-center">
+        <!-- Success Animation -->
+        <div class="mb-8">
+            <div class="w-24 h-24 mx-auto bg-green-100 rounded-full flex items-center justify-center success-circle">
+                <svg class="w-12 h-12 text-green-500" fill="none" viewBox="0 0 24 24">
+                    <path class="success-checkmark" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            Order Confirmed!
+        </h1>
+
+        <p class="text-gray-600 mb-8 max-w-md mx-auto">
+            Thank you for your purchase. Your order has been received and is being processed.
+        </p>
+
+        <!-- Order Details Card -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-8 text-left">
+            <div class="flex items-center justify-between mb-6 pb-6 border-b border-gray-100">
+                <div>
+                    <p class="text-sm text-gray-500">Order Number</p>
+                    <p class="text-xl font-bold text-gray-900" id="order-number">#JTM-2026-000000</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-500">Order Date</p>
+                    <p class="font-medium text-gray-900" id="order-date">March 26, 2026</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 bg-jt-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-jt-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-900">Confirmation Email Sent</p>
+                        <p class="text-sm text-gray-500">A confirmation email has been sent to your email address with order details.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-900">Shipping Updates</p>
+                        <p class="text-sm text-gray-500">You'll receive shipping updates via email when your order ships.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 bg-jt-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-jt-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-900">Estimated Delivery</p>
+                        <p class="text-sm text-gray-500" id="delivery-date">March 31 - April 2, 2026</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What's Next -->
+        <div class="bg-gradient-to-br from-jt-blue-50 to-jt-red-50 rounded-2xl p-8 mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">What's Next?</h2>
+            <div class="grid sm:grid-cols-3 gap-6 text-center">
+                <div>
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+                        <span class="text-xl font-bold gradient-text">1</span>
+                    </div>
+                    <p class="text-sm text-gray-600">We're preparing your order for shipment</p>
+                </div>
+                <div>
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+                        <span class="text-xl font-bold gradient-text">2</span>
+                    </div>
+                    <p class="text-sm text-gray-600">You'll receive tracking info via email</p>
+                </div>
+                <div>
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+                        <span class="text-xl font-bold gradient-text">3</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Your order will be delivered to you</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="homepage.html" class="px-8 py-3 bg-gradient-to-r from-jt-red-500 to-jt-red-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">
+                Continue Shopping
+            </a>
+            <a href="login.html" class="px-8 py-3 bg-white text-jt-blue-600 font-semibold rounded-xl border-2 border-jt-blue-200 hover:border-jt-blue-400 transition-all">
+                Track Order
+            </a>
+        </div>
+
+        <!-- Support Info -->
+        <p class="mt-12 text-sm text-gray-500">
+            Need help? Contact us at <a href="mailto:support@jtmobamba.com" class="text-jt-blue-600 hover:underline">support@jtmobamba.com</a>
+        </p>
+    </main>
+
+    <script>
+        // Generate random order number
+        const orderNumber = 'JTM-2026-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        document.getElementById('order-number').textContent = '#' + orderNumber;
+
+        // Set current date
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('order-date').textContent = today.toLocaleDateString('en-US', options);
+
+        // Set estimated delivery (5-7 days from now)
+        const deliveryStart = new Date(today);
+        deliveryStart.setDate(today.getDate() + 5);
+        const deliveryEnd = new Date(today);
+        deliveryEnd.setDate(today.getDate() + 7);
+
+        const deliveryOptions = { month: 'long', day: 'numeric' };
+        document.getElementById('delivery-date').textContent =
+            deliveryStart.toLocaleDateString('en-US', deliveryOptions) + ' - ' +
+            deliveryEnd.toLocaleDateString('en-US', deliveryOptions) + ', ' +
+            deliveryEnd.getFullYear();
+
+        // Create confetti effect
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#dc2626', '#3b82f6', '#22c55e', '#f59e0b', '#8b5cf6'];
+
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
+                container.appendChild(confetti);
+            }
+
+            // Remove confetti after animation
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Trigger confetti on load
+        window.addEventListener('load', createConfetti);
+    </script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - JT-Mobamba</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="onboarding-container">
+        <div class="onboarding-card">
+            <!-- Progress Dots -->
+            <div class="onboarding-progress" id="progress-dots">
+                <div class="progress-dot active" data-step="0"></div>
+                <div class="progress-dot" data-step="1"></div>
+                <div class="progress-dot" data-step="2"></div>
+                <div class="progress-dot" data-step="3"></div>
+                <div class="progress-dot" data-step="4"></div>
+            </div>
+
+            <!-- Step Content Container -->
+            <div id="step-container">
+                <!-- Step 0: Welcome -->
+                <div class="onboarding-step" data-step="0">
+                    <div class="onboarding-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="onboarding-title">Welcome to JT-Mobamba</h2>
+                    <p class="onboarding-description">
+                        Your all-in-one workspace for file management, database operations, and analytics.
+                        Let's take a quick tour to get you started.
+                    </p>
+                    <div class="onboarding-actions">
+                        <button class="btn btn-secondary" id="skip-onboarding">Skip tour</button>
+                        <button class="btn btn-primary" id="start-tour">Get started</button>
+                    </div>
+                </div>
+
+                <!-- Step 1: File Management -->
+                <div class="onboarding-step" data-step="1" style="display: none;">
+                    <div class="onboarding-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="onboarding-title">File Management</h2>
+                    <p class="onboarding-description">
+                        Upload, organize, and manage your files with up to <strong>8GB of storage</strong> per workspace.
+                        Drag and drop files, create folders, and keep everything synced.
+                    </p>
+                    <div class="mt-6 mb-6 p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                            </div>
+                            <div class="text-left">
+                                <p class="font-medium text-sm">Drag & Drop Upload</p>
+                                <p class="text-xs text-gray-500">Simply drag files to upload</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-left">
+                                <p class="font-medium text-sm">Real-time Sync</p>
+                                <p class="text-xs text-gray-500">Files sync automatically</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="onboarding-actions">
+                        <button class="btn btn-secondary" data-action="prev">Back</button>
+                        <button class="btn btn-primary" data-action="next">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Database -->
+                <div class="onboarding-step" data-step="2" style="display: none;">
+                    <div class="onboarding-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                        </svg>
+                    </div>
+                    <h2 class="onboarding-title">Database Management</h2>
+                    <p class="onboarding-description">
+                        Browse tables, edit records, and run queries directly from your dashboard.
+                        Full control over your database without leaving the app.
+                    </p>
+                    <div class="mt-6 mb-6 p-4 bg-gray-50 rounded-lg">
+                        <div class="text-left space-y-2">
+                            <div class="flex items-center gap-2 text-sm">
+                                <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Visual table browser</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Inline record editing</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>SQL query editor</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Schema management</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="onboarding-actions">
+                        <button class="btn btn-secondary" data-action="prev">Back</button>
+                        <button class="btn btn-primary" data-action="next">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Analytics -->
+                <div class="onboarding-step" data-step="3" style="display: none;">
+                    <div class="onboarding-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="onboarding-title">Analytics Dashboard</h2>
+                    <p class="onboarding-description">
+                        Track your storage usage, file activity, and trends with beautiful,
+                        interactive charts and visualizations.
+                    </p>
+                    <div class="mt-6 mb-6 grid grid-cols-2 gap-3">
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-accent">8GB</div>
+                            <div class="text-xs text-gray-500">Storage Quota</div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-accent">
+                                <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                            </div>
+                            <div class="text-xs text-gray-500">Usage Trends</div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-accent">
+                                <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-xs text-gray-500">File Distribution</div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-accent">
+                                <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-xs text-gray-500">Date Filtering</div>
+                        </div>
+                    </div>
+                    <div class="onboarding-actions">
+                        <button class="btn btn-secondary" data-action="prev">Back</button>
+                        <button class="btn btn-primary" data-action="next">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Workspace Setup -->
+                <div class="onboarding-step" data-step="4" style="display: none;">
+                    <div class="onboarding-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                    </div>
+                    <h2 class="onboarding-title">Your Workspace</h2>
+                    <p class="onboarding-description">
+                        We've created your first workspace. Give it a name that helps you stay organized.
+                    </p>
+                    <div class="mt-6 mb-6">
+                        <label class="form-label text-left">Workspace name</label>
+                        <input type="text" id="workspace-name" class="input" placeholder="My Workspace" value="My Workspace">
+                        <p class="form-hint text-left">You can change this anytime in settings</p>
+                    </div>
+                    <div class="onboarding-actions">
+                        <button class="btn btn-secondary" data-action="prev">Back</button>
+                        <button class="btn btn-primary" id="complete-onboarding">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Complete setup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skip confirmation modal -->
+        <div class="text-center mt-4">
+            <p class="text-sm text-gray-500">
+                Already familiar?
+                <a href="#" id="skip-link" class="text-accent hover:underline">Skip the tour</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/onboarding.js"></script>
+</body>
+</html>

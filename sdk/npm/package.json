@@ -1,0 +1,38 @@
+{
+  "name": "jtmobamba-mcp",
+  "version": "1.0.0",
+  "description": "Official JT Mobamba MCP SDK for Node.js - Connect to JT Mobamba Cloud Database",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "jtmobamba",
+    "mcp",
+    "database",
+    "cloud",
+    "api",
+    "sdk",
+    "nosql",
+    "sql"
+  ],
+  "author": "JT Mobamba",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jtmobamba/jtmobamba-mcp-nodejs"
+  },
+  "homepage": "https://jtmobamba.com/docs/sdk/nodejs",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

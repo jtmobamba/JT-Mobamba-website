@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - JT Mobamba Electronics</title>
+    <link rel="icon" type="image/svg+xml" href="logo (1).svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        'jt-cream': '#FFF8F0',
+                        'jt-brown': {
+                            50: '#FFF8F0',
+                            100: '#E8C5B0',
+                            200: '#D4A88A',
+                            300: '#C4815D',
+                            400: '#A66B4A',
+                            500: '#8B5A3C',
+                            600: '#704830',
+                            700: '#553624',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #FFF8F0;
+        }
+        .product-card {
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+        .product-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+        .filter-dropdown {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .product-card {
+            animation: fadeIn 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen font-inter">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="homepage.html" class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-jt-brown-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-jt-brown-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">JT Mobamba</span>
+                </a>
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="homepage.html" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="products.html" class="text-jt-brown-300 font-medium">Products</a>
+                    <a href="categories.html" class="text-gray-600 hover:text-gray-900">Categories</a>
+                    <a href="deals.html" class="text-gray-600 hover:text-gray-900">Deals</a>
+                </nav>
+                <div class="flex items-center gap-3">
+                    <button id="cart-toggle" class="relative p-2 text-gray-500 hover:text-gray-700 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        <span class="cart-count absolute -top-1 -right-1 w-4 h-4 bg-jt-brown-300 text-white text-xs font-medium rounded-full items-center justify-center hidden">0</span>
+                    </button>
+                    <a href="login.html" class="px-4 py-2 bg-jt-brown-300 text-white font-medium rounded-lg hover:bg-jt-brown-400 transition-colors">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="relative bg-jt-brown-700 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4">All Products</h1>
+                    <p class="text-xl text-jt-brown-100 mb-6">Discover our complete collection of premium electronics</p>
+                    <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
+                        <span class="px-4 py-2 bg-jt-brown-600 text-jt-brown-100 rounded-full text-sm" id="total-products-badge">Loading...</span>
+                        <span class="px-4 py-2 bg-jt-brown-600 text-jt-brown-100 rounded-full text-sm">Free Shipping</span>
+                        <span class="px-4 py-2 bg-jt-brown-600 text-jt-brown-100 rounded-full text-sm">2 Year Warranty</span>
+                    </div>
+                </div>
+                <div class="hidden lg:block">
+                    <img src="image/mjeanqnokr051.jpg" alt="Products" class="w-full h-64 object-cover rounded-xl shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters & Products -->
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <!-- Filter Bar -->
+        <div class="bg-white rounded-xl shadow-sm p-4 mb-8">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex flex-wrap items-center gap-4">
+                    <!-- Category Filter Dropdown -->
+                    <div class="relative">
+                        <label class="block text-xs text-gray-500 mb-1">Category</label>
+                        <select id="category-filter" onchange="applyFilters()" class="filter-dropdown px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-jt-brown-300 min-w-[180px]">
+                            <option value="all">All Categories</option>
+                            <option value="smartphones">Smartphones</option>
+                            <option value="laptops">Laptops</option>
+                            <option value="audio">Audio</option>
+                            <option value="wearables">Wearables</option>
+                            <option value="cameras">Cameras</option>
+                            <option value="smart-home">Smart Home</option>
+                        </select>
+                    </div>
+
+                    <!-- Price Range Filter -->
+                    <div class="relative">
+                        <label class="block text-xs text-gray-500 mb-1">Price Range</label>
+                        <select id="price-filter" onchange="applyFilters()" class="filter-dropdown px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-jt-brown-300 min-w-[160px]">
+                            <option value="all">All Prices</option>
+                            <option value="0-50">Under £50</option>
+                            <option value="50-100">£50 - £100</option>
+                            <option value="100-300">£100 - £300</option>
+                            <option value="300-1000">£300 - £1000</option>
+                            <option value="1000+">Over £1000</option>
+                        </select>
+                    </div>
+
+                    <!-- Sort Dropdown -->
+                    <div class="relative">
+                        <label class="block text-xs text-gray-500 mb-1">Sort By</label>
+                        <select id="sort-filter" onchange="applyFilters()" class="filter-dropdown px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-jt-brown-300 min-w-[180px]">
+                            <option value="featured">Featured</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Best Rated</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                    </div>
+
+                    <!-- Clear Filters Button -->
+                    <button onclick="clearFilters()" class="mt-5 px-4 py-2 text-jt-brown-300 hover:text-jt-brown-400 font-medium text-sm flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Clear Filters
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <span id="showing-count" class="text-gray-500 text-sm">Loading...</span>
+                </div>
+            </div>
+
+            <!-- Active Filters -->
+            <div id="active-filters" class="flex flex-wrap gap-2 mt-4 hidden">
+                <!-- Active filter tags will appear here -->
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Products will be loaded dynamically -->
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center py-16">
+            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">No products found</h3>
+            <p class="text-gray-500 mb-4">Try adjusting your filters to find what you're looking for.</p>
+            <button onclick="clearFilters()" class="px-6 py-2 bg-jt-brown-300 text-white rounded-lg hover:bg-jt-brown-400 transition-colors">
+                Clear All Filters
+            </button>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="flex items-center justify-center gap-2 mt-12">
+            <!-- Pagination will be generated dynamically -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-jt-brown-700 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-10 h-10 bg-jt-brown-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-jt-brown-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-lg font-bold">JT Mobamba</span>
+                    </div>
+                    <p class="text-sm text-jt-brown-100">Premium electronics for modern living.</p>
+                </div>
+                <div>
+                    <h4 class="font-medium mb-4">Shop</h4>
+                    <ul class="space-y-2 text-sm text-jt-brown-100">
+                        <li><a href="products.html" class="hover:text-white transition-colors">Products</a></li>
+                        <li><a href="categories.html" class="hover:text-white transition-colors">Categories</a></li>
+                        <li><a href="deals.html" class="hover:text-white transition-colors">Deals</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium mb-4">Support</h4>
+                    <ul class="space-y-2 text-sm text-jt-brown-100">
+                        <li><a href="help-center.html" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="track-order.html" class="hover:text-white transition-colors">Track Order</a></li>
+                        <li><a href="returns.html" class="hover:text-white transition-colors">Returns</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm text-jt-brown-100">
+                        <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="login.html" class="hover:text-white transition-colors">Sign In</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-jt-brown-600 pt-8 text-center">
+                <p class="text-sm text-jt-brown-100">&copy; 2026 JT Mobamba Electronics. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300">
+        <div class="flex flex-col h-full">
+            <div class="flex items-center justify-between p-4 border-b border-gray-100">
+                <h2 class="text-xl font-bold text-gray-900">Shopping Cart</h2>
+                <button id="cart-close" class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="cart-sidebar-content" class="flex-1 overflow-y-auto"></div>
+            <div class="border-t border-gray-100 p-4 bg-jt-cream">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-gray-600">Subtotal</span>
+                    <span id="cart-total" class="text-2xl font-bold text-gray-900">£0.00</span>
+                </div>
+                <button onclick="window.location.href='checkout.html'" class="w-full py-4 bg-jt-brown-300 text-white font-bold rounded-xl hover:bg-jt-brown-400 transition-all">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        #cart-sidebar.active {
+            transform: translateX(0);
+        }
+    </style>
+
+    <script src="js/shop.js"></script>
+    <script>
+        // State
+        let currentPage = 1;
+        const itemsPerPage = 8;
+        let filteredProducts = [];
+
+        // Category names mapping
+        const categoryNames = {
+            'all': 'All Categories',
+            'audio': 'Audio',
+            'wearables': 'Wearables',
+            'laptops': 'Laptops',
+            'smartphones': 'Smartphones',
+            'cameras': 'Cameras',
+            'smart-home': 'Smart Home'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for category in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryParam = urlParams.get('category');
+            if (categoryParam) {
+                document.getElementById('category-filter').value = categoryParam;
+            }
+
+            applyFilters();
+            setupCartSidebar();
+
+            // Update total products badge
+            document.getElementById('total-products-badge').textContent = `${DEMO_PRODUCTS.length}+ Products`;
+        });
+
+        // Apply Filters
+        function applyFilters() {
+            const category = document.getElementById('category-filter').value;
+            const priceRange = document.getElementById('price-filter').value;
+            const sortBy = document.getElementById('sort-filter').value;
+
+            // Start with all products
+            filteredProducts = [...DEMO_PRODUCTS];
+
+            // Filter by category
+            if (category !== 'all') {
+                filteredProducts = filteredProducts.filter(p => p.category === category);
+            }
+
+            // Filter by price range
+            if (priceRange !== 'all') {
+                const [min, max] = priceRange.split('-').map(v => v === '+' ? Infinity : parseFloat(v));
+                if (priceRange.endsWith('+')) {
+                    filteredProducts = filteredProducts.filter(p => p.price >= parseFloat(priceRange));
+                } else {
+                    filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
+                }
+            }
+
+            // Sort products
+            switch (sortBy) {
+                case 'price-low':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    filteredProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+                    break;
+                case 'newest':
+                    filteredProducts.reverse();
+                    break;
+            }
+
+            // Reset to first page
+            currentPage = 1;
+
+            // Update UI
+            updateActiveFilters();
+            renderProducts();
+            renderPagination();
+        }
+
+        // Clear Filters
+        function clearFilters() {
+            document.getElementById('category-filter').value = 'all';
+            document.getElementById('price-filter').value = 'all';
+            document.getElementById('sort-filter').value = 'featured';
+            applyFilters();
+
+            // Update URL
+            window.history.pushState({}, '', 'products.html');
+        }
+
+        // Update Active Filters Display
+        function updateActiveFilters() {
+            const container = document.getElementById('active-filters');
+            const category = document.getElementById('category-filter').value;
+            const priceRange = document.getElementById('price-filter').value;
+
+            const filters = [];
+
+            if (category !== 'all') {
+                filters.push({
+                    type: 'category',
+                    label: categoryNames[category] || category,
+                    value: category
+                });
+            }
+
+            if (priceRange !== 'all') {
+                let label = priceRange;
+                if (priceRange === '0-50') label = 'Under £50';
+                else if (priceRange === '50-100') label = '£50 - £100';
+                else if (priceRange === '100-300') label = '£100 - £300';
+                else if (priceRange === '300-1000') label = '£300 - £1000';
+                else if (priceRange === '1000+') label = 'Over £1000';
+
+                filters.push({
+                    type: 'price',
+                    label: label,
+                    value: priceRange
+                });
+            }
+
+            if (filters.length > 0) {
+                container.classList.remove('hidden');
+                container.innerHTML = `
+                    <span class="text-sm text-gray-500">Active filters:</span>
+                    ${filters.map(f => `
+                        <span class="inline-flex items-center gap-1 px-3 py-1 bg-jt-brown-100 text-jt-brown-700 rounded-full text-sm">
+                            ${f.label}
+                            <button onclick="removeFilter('${f.type}')" class="hover:text-jt-brown-900">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </span>
+                    `).join('')}
+                `;
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        // Remove specific filter
+        function removeFilter(type) {
+            if (type === 'category') {
+                document.getElementById('category-filter').value = 'all';
+            } else if (type === 'price') {
+                document.getElementById('price-filter').value = 'all';
+            }
+            applyFilters();
+        }
+
+        // Render Products
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const noResults = document.getElementById('no-results');
+            const showingCount = document.getElementById('showing-count');
+
+            // Calculate pagination
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageProducts = filteredProducts.slice(startIndex, endIndex);
+
+            // Update showing count
+            showingCount.textContent = `Showing ${startIndex + 1}-${Math.min(endIndex, filteredProducts.length)} of ${filteredProducts.length} products`;
+
+            if (filteredProducts.length === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            noResults.classList.add('hidden');
+
+            grid.innerHTML = pageProducts.map((product, index) => `
+                <a href="product.html?id=${product.id}" class="product-card bg-white rounded-xl overflow-hidden shadow-sm" style="animation-delay: ${index * 0.05}s">
+                    <div class="relative">
+                        <img src="${product.image}" alt="${product.title}" class="w-full h-48 object-cover">
+                        ${product.badge === 'sale' ? `<span class="absolute top-3 left-3 px-2 py-1 bg-red-500 text-white text-xs font-medium rounded">-${product.discount}%</span>` : ''}
+                        ${product.badge === 'new' ? `<span class="absolute top-3 left-3 px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded">New</span>` : ''}
+                        ${product.badge === 'bestseller' ? `<span class="absolute top-3 left-3 px-2 py-1 bg-green-500 text-white text-xs font-medium rounded">Best Seller</span>` : ''}
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-gray-500 mb-1">${categoryNames[product.category] || product.category}</p>
+                        <h3 class="font-medium text-gray-900 mb-1">${product.title}</h3>
+                        <div class="flex items-center gap-1 mb-2">
+                            <div class="flex text-yellow-400">
+                                ${Array(5).fill().map((_, i) => `
+                                    <svg class="w-4 h-4 ${i < (product.rating || 4) ? 'fill-current' : 'fill-current text-gray-300'}" viewBox="0 0 24 24">
+                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                `).join('')}
+                            </div>
+                            <span class="text-xs text-gray-500">(${product.reviews || 0})</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg font-bold text-gray-900">£${product.price.toFixed(2)}</span>
+                                ${product.originalPrice ? `<span class="text-sm text-gray-400 line-through">£${product.originalPrice.toFixed(2)}</span>` : ''}
+                            </div>
+                            <button onclick="event.preventDefault(); addToCart('${product.id}')" class="p-2 bg-jt-brown-300 text-white rounded-lg hover:bg-jt-brown-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Render Pagination
+        function renderPagination() {
+            const container = document.getElementById('pagination');
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+
+            // Previous button
+            html += `
+                <button onclick="goToPage(${currentPage - 1})"
+                        class="px-4 py-2 border border-gray-200 rounded-lg ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-50'}"
+                        ${currentPage === 1 ? 'disabled' : ''}>
+                    Previous
+                </button>
+            `;
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    html += `
+                        <button onclick="goToPage(${i})"
+                                class="px-4 py-2 rounded-lg ${i === currentPage ? 'bg-jt-brown-300 text-white' : 'border border-gray-200 hover:bg-gray-50'}">
+                            ${i}
+                        </button>
+                    `;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    html += `<span class="px-2 text-gray-400">...</span>`;
+                }
+            }
+
+            // Next button
+            html += `
+                <button onclick="goToPage(${currentPage + 1})"
+                        class="px-4 py-2 border border-gray-200 rounded-lg ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-50'}"
+                        ${currentPage === totalPages ? 'disabled' : ''}>
+                    Next
+                </button>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Go to specific page
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderProducts();
+            renderPagination();
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        // Add to Cart
+        function addToCart(productId) {
+            const product = DEMO_PRODUCTS.find(p => p.id === productId);
+            if (product) {
+                cart.addItem(product);
+            }
+        }
+
+        // Setup Cart Sidebar
+        function setupCartSidebar() {
+            const cartToggle = document.getElementById('cart-toggle');
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const cartClose = document.getElementById('cart-close');
+            const cartOverlay = document.getElementById('cart-overlay');
+
+            cartToggle.addEventListener('click', () => {
+                cartSidebar.classList.add('active');
+                cartOverlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+
+            cartClose.addEventListener('click', closeCart);
+            cartOverlay.addEventListener('click', closeCart);
+
+            function closeCart() {
+                cartSidebar.classList.remove('active');
+                cartOverlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+    </script>
+</body>
+</html>

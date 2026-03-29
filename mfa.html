@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify - JT-Mobamba</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Verification View -->
+            <div id="verify-view">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="auth-title">Two-factor authentication</h1>
+                    <p class="auth-subtitle">Enter the 6-digit code from your authenticator app</p>
+                </div>
+
+                <form id="mfa-form">
+                    <div class="mfa-input-group mb-6">
+                        <input type="text" class="mfa-input" maxlength="1" data-index="0" inputmode="numeric" pattern="[0-9]*">
+                        <input type="text" class="mfa-input" maxlength="1" data-index="1" inputmode="numeric" pattern="[0-9]*">
+                        <input type="text" class="mfa-input" maxlength="1" data-index="2" inputmode="numeric" pattern="[0-9]*">
+                        <input type="text" class="mfa-input" maxlength="1" data-index="3" inputmode="numeric" pattern="[0-9]*">
+                        <input type="text" class="mfa-input" maxlength="1" data-index="4" inputmode="numeric" pattern="[0-9]*">
+                        <input type="text" class="mfa-input" maxlength="1" data-index="5" inputmode="numeric" pattern="[0-9]*">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full btn-lg" id="verify-btn">
+                        Verify
+                    </button>
+
+                    <div id="mfa-error" class="form-error mt-4 text-center" style="display: none;"></div>
+                </form>
+
+                <div class="text-center mt-6">
+                    <p class="text-sm text-gray-600">
+                        Lost access to your authenticator?
+                        <a href="#" id="use-backup-link" class="text-accent font-medium hover:underline">Use backup code</a>
+                    </p>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="login.html" class="text-sm text-gray-500 hover:text-gray-700">
+                        <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Back to login
+                    </a>
+                </div>
+            </div>
+
+            <!-- MFA Setup View (for new users) -->
+            <div id="setup-view" style="display: none;">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="auth-title">Secure your account</h1>
+                    <p class="auth-subtitle">Set up two-factor authentication for added security</p>
+                </div>
+
+                <div class="text-center mb-6">
+                    <p class="text-sm text-gray-600 mb-4">Scan this QR code with your authenticator app</p>
+                    <div id="qr-code" class="inline-block p-4 bg-white rounded-lg border border-gray-200">
+                        <!-- QR code will be inserted here -->
+                        <div class="w-48 h-48 bg-gray-100 flex items-center justify-center text-gray-400">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h2M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <p class="text-sm text-gray-600 mb-2">Or enter this code manually:</p>
+                    <div class="api-key-display">
+                        <code id="mfa-secret" class="api-key-value">Loading...</code>
+                        <button type="button" class="btn btn-ghost btn-sm" id="copy-secret">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <form id="setup-form">
+                    <div class="form-group">
+                        <label class="form-label">Enter the 6-digit code to verify</label>
+                        <div class="mfa-input-group">
+                            <input type="text" class="mfa-input setup-input" maxlength="1" data-index="0" inputmode="numeric" pattern="[0-9]*">
+                            <input type="text" class="mfa-input setup-input" maxlength="1" data-index="1" inputmode="numeric" pattern="[0-9]*">
+                            <input type="text" class="mfa-input setup-input" maxlength="1" data-index="2" inputmode="numeric" pattern="[0-9]*">
+                            <input type="text" class="mfa-input setup-input" maxlength="1" data-index="3" inputmode="numeric" pattern="[0-9]*">
+                            <input type="text" class="mfa-input setup-input" maxlength="1" data-index="4" inputmode="numeric" pattern="[0-9]*">
+                            <input type="text" class="mfa-input setup-input" maxlength="1" data-index="5" inputmode="numeric" pattern="[0-9]*">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full btn-lg" id="setup-btn">
+                        Enable two-factor authentication
+                    </button>
+
+                    <div id="setup-error" class="form-error mt-4 text-center" style="display: none;"></div>
+                </form>
+
+                <div class="text-center mt-6">
+                    <a href="#" id="skip-mfa-link" class="text-sm text-gray-500 hover:text-gray-700">
+                        Skip for now (not recommended)
+                    </a>
+                </div>
+            </div>
+
+            <!-- Backup Code View -->
+            <div id="backup-view" style="display: none;">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="auth-title">Use backup code</h1>
+                    <p class="auth-subtitle">Enter one of your backup codes to sign in</p>
+                </div>
+
+                <form id="backup-form">
+                    <div class="form-group">
+                        <label class="form-label" for="backup-code">Backup code</label>
+                        <input type="text" id="backup-code" class="input text-center font-mono" placeholder="XXXX-XXXX-XXXX" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full btn-lg" id="backup-btn">
+                        Verify
+                    </button>
+
+                    <div id="backup-error" class="form-error mt-4 text-center" style="display: none;"></div>
+                </form>
+
+                <div class="text-center mt-6">
+                    <a href="#" id="use-totp-link" class="text-sm text-gray-500 hover:text-gray-700">
+                        <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Use authenticator app instead
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/mfa.js"></script>
+</body>
+</html>

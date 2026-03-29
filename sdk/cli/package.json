@@ -1,0 +1,37 @@
+{
+  "name": "jtmobamba-cli",
+  "version": "1.0.0",
+  "description": "JT Mobamba CLI - Command line tool for managing JT Mobamba Cloud Database",
+  "main": "dist/index.js",
+  "bin": {
+    "jtmobamba": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "jtmobamba",
+    "cli",
+    "database",
+    "cloud"
+  ],
+  "author": "JT Mobamba",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.5",
+    "ora": "^5.4.1",
+    "conf": "^10.2.0",
+    "jtmobamba-mcp": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "@types/inquirer": "^8.2.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

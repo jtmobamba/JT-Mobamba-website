@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Gallery - JT Mobamba Electronics</title>
+    <link rel="icon" type="image/svg+xml" href="logo (1).svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        'jt-cream': '#FFF8F0',
+                        'jt-cream-dark': '#FFF5EB',
+                        'jt-brown': {
+                            50: '#FFF8F0',
+                            100: '#E8C5B0',
+                            200: '#D4A88A',
+                            300: '#C4815D',
+                            400: '#A66B4A',
+                            500: '#8B5A3C',
+                            600: '#704830',
+                            700: '#553624',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #FFF8F0;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+        .btn-primary {
+            background-color: #C4815D;
+            transition: background-color 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #A66B4A;
+        }
+        .product-thumb {
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+        .product-thumb.active, .product-thumb:hover {
+            border-color: #C4815D;
+        }
+        .product-card {
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+        .product-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+        .category-tab {
+            transition: all 0.2s ease;
+        }
+        .category-tab.active {
+            background-color: #C4815D;
+            color: white;
+        }
+        .gallery-slider {
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .gallery-slider::-webkit-scrollbar {
+            display: none;
+        }
+        .featured-product {
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .quick-view-modal {
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="font-inter">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="homepage.html" class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-jt-brown-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-jt-brown-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-lg font-bold text-gray-900">JT Mobamba</span>
+                </a>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="homepage.html" class="text-gray-600 hover:text-gray-900 text-sm">Home</a>
+                    <a href="products.html" class="text-gray-600 hover:text-gray-900 text-sm">Products</a>
+                    <a href="categories.html" class="text-gray-600 hover:text-gray-900 text-sm">Categories</a>
+                    <a href="deals.html" class="text-gray-600 hover:text-gray-900 text-sm">Deals</a>
+                </div>
+
+                <!-- Right Actions -->
+                <div class="flex items-center gap-3">
+                    <!-- Cart -->
+                    <button id="cart-toggle" class="relative p-2 text-gray-500 hover:text-gray-700 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        <span class="cart-count absolute -top-1 -right-1 w-4 h-4 bg-jt-brown-300 text-white text-xs font-medium rounded-full items-center justify-center hidden">0</span>
+                    </button>
+
+                    <!-- Back to Shop -->
+                    <a href="homepage.html" class="hidden sm:block px-4 py-2 bg-jt-brown-300 text-white text-sm font-medium rounded-lg hover:bg-jt-brown-400 transition-colors">
+                        Back to Shop
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-16">
+        <!-- Gallery View (shown when no product selected) -->
+        <div id="gallery-view">
+            <!-- Hero Banner -->
+            <section class="bg-jt-brown-700 py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center">
+                        <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3">Product Gallery</h1>
+                        <p class="text-jt-brown-100 text-lg">Browse all our premium electronics</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Category Navigation -->
+            <section class="bg-white border-b border-gray-200 sticky top-16 z-40">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center gap-2 py-4 overflow-x-auto gallery-slider">
+                        <button onclick="filterByCategory('all')" class="category-tab active px-5 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 whitespace-nowrap" data-category="all">
+                            All Products
+                        </button>
+                        <button onclick="filterByCategory('audio')" class="category-tab px-5 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 whitespace-nowrap" data-category="audio">
+                            Audio
+                        </button>
+                        <button onclick="filterByCategory('wearables')" class="category-tab px-5 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 whitespace-nowrap" data-category="wearables">
+                            Wearables
+                        </button>
+                        <button onclick="filterByCategory('laptops')" class="category-tab px-5 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 whitespace-nowrap" data-category="laptops">
+                            Laptops
+                        </button>
+                        <button onclick="filterByCategory('smartphones')" class="category-tab px-5 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 whitespace-nowrap" data-category="smartphones">
+                            Smartphones
+                        </button>
+                        <button onclick="filterByCategory('cameras')" class="category-tab px-5 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 whitespace-nowrap" data-category="cameras">
+                            Cameras
+                        </button>
+                        <button onclick="filterByCategory('smart-home')" class="category-tab px-5 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 whitespace-nowrap" data-category="smart-home">
+                            Smart Home
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Product Showcase -->
+            <section class="py-12 bg-jt-cream">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900">Featured Product</h2>
+                        <div class="flex gap-2">
+                            <button onclick="prevFeatured()" class="p-2 bg-white rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                            </button>
+                            <button onclick="nextFeatured()" class="p-2 bg-white rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Featured Product Card -->
+                    <div id="featured-product" class="featured-product bg-white rounded-2xl shadow-lg overflow-hidden">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="p-8">
+                                <img id="featured-image" src="" alt="" class="w-full h-80 object-contain">
+                            </div>
+                            <div class="p-8 flex flex-col justify-center">
+                                <span id="featured-badge" class="inline-block px-3 py-1 bg-jt-brown-300 text-white text-sm font-medium rounded w-fit mb-4"></span>
+                                <h3 id="featured-title" class="text-2xl font-bold text-gray-900 mb-2"></h3>
+                                <p id="featured-category" class="text-gray-500 mb-4"></p>
+                                <div class="flex items-center gap-3 mb-6">
+                                    <span id="featured-price" class="text-3xl font-bold text-gray-900"></span>
+                                    <span id="featured-original" class="text-lg text-gray-400 line-through"></span>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button onclick="viewProductDetail()" class="flex-1 py-3 btn-primary text-white font-semibold rounded-xl">
+                                        View Details
+                                    </button>
+                                    <button onclick="addFeaturedToCart()" class="px-6 py-3 border-2 border-jt-brown-300 text-jt-brown-300 font-semibold rounded-xl hover:bg-jt-brown-300 hover:text-white transition-colors">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Navigation Dots -->
+                    <div id="featured-dots" class="flex justify-center gap-2 mt-6">
+                        <!-- Dots will be generated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- All Products Grid -->
+            <section class="py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900">
+                            <span id="category-title">All Products</span>
+                            <span id="product-count" class="text-lg font-normal text-gray-500 ml-2"></span>
+                        </h2>
+                        <select id="sort-select" onchange="sortProducts()" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-jt-brown-300">
+                            <option value="default">Sort by: Default</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Best Rated</option>
+                        </select>
+                    </div>
+
+                    <div id="products-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Product Detail View (shown when a product is selected) -->
+        <div id="detail-view" class="hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Back Button -->
+                <button onclick="showGalleryView()" class="flex items-center gap-2 text-jt-brown-300 hover:text-jt-brown-400 font-medium mb-6 mt-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Gallery
+                </button>
+
+                <!-- Breadcrumb -->
+                <nav class="mb-8">
+                    <ol class="flex items-center gap-2 text-sm text-gray-500">
+                        <li><a href="homepage.html" class="hover:text-jt-brown-300">Home</a></li>
+                        <li><span>/</span></li>
+                        <li><a href="#" onclick="showGalleryView(); return false;" class="hover:text-jt-brown-300">Products</a></li>
+                        <li><span>/</span></li>
+                        <li id="breadcrumb-product" class="text-gray-900 font-medium">Loading...</li>
+                    </ol>
+                </nav>
+
+                <!-- Product Detail -->
+                <div class="grid lg:grid-cols-2 gap-12 mb-16">
+                    <!-- Product Images -->
+                    <div>
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-lg mb-4">
+                            <img id="main-image" src="" alt="" class="w-full h-[500px] object-contain p-8">
+                        </div>
+                        <div class="flex gap-3" id="image-thumbnails">
+                            <!-- Thumbnails will be added here -->
+                        </div>
+                    </div>
+
+                    <!-- Product Info -->
+                    <div>
+                        <div class="mb-4">
+                            <span id="product-badge" class="inline-block px-3 py-1 bg-jt-brown-300 text-white text-sm font-medium rounded"></span>
+                        </div>
+
+                        <h1 id="product-title" class="text-3xl font-bold text-gray-900 mb-4">Loading...</h1>
+
+                        <!-- Rating -->
+                        <div class="flex items-center gap-2 mb-6">
+                            <div id="product-stars" class="flex text-yellow-400">
+                                <!-- Stars will be added here -->
+                            </div>
+                            <span id="product-rating" class="text-sm text-gray-500"></span>
+                            <span class="text-gray-300">|</span>
+                            <span id="product-reviews" class="text-sm text-gray-500"></span>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="flex items-center gap-4 mb-8">
+                            <span id="product-price" class="text-4xl font-bold text-gray-900"></span>
+                            <span id="product-original-price" class="text-xl text-gray-400 line-through"></span>
+                            <span id="product-discount" class="px-2 py-1 bg-green-100 text-green-700 text-sm font-medium rounded"></span>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-8">
+                            <h3 class="font-semibold text-gray-900 mb-2">Description</h3>
+                            <p id="product-description" class="text-gray-600 leading-relaxed">
+                                Experience premium quality and innovative design with this exceptional product.
+                                Built with the finest materials and engineered for peak performance,
+                                it delivers an unmatched experience that exceeds expectations.
+                            </p>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="mb-8">
+                            <h3 class="font-semibold text-gray-900 mb-3">Key Features</h3>
+                            <ul id="product-features" class="space-y-2">
+                                <li class="flex items-center gap-2 text-gray-600">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    Premium build quality
+                                </li>
+                                <li class="flex items-center gap-2 text-gray-600">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    2-year warranty included
+                                </li>
+                                <li class="flex items-center gap-2 text-gray-600">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    Free shipping over £50
+                                </li>
+                                <li class="flex items-center gap-2 text-gray-600">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    30-day return policy
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Quantity & Add to Cart -->
+                        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                            <div class="flex items-center border border-gray-200 rounded-lg bg-white">
+                                <button id="qty-decrease" class="px-4 py-3 text-gray-500 hover:text-gray-700 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                                    </svg>
+                                </button>
+                                <input type="number" id="quantity" value="1" min="1" class="w-16 text-center border-0 focus:ring-0 text-lg font-semibold bg-transparent">
+                                <button id="qty-increase" class="px-4 py-3 text-gray-500 hover:text-gray-700 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <button id="add-to-cart" class="btn-primary flex-1 py-4 text-white font-semibold rounded-xl flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                                </svg>
+                                Add to Cart
+                            </button>
+                        </div>
+
+                        <!-- Trust Badges -->
+                        <div class="flex items-center gap-6 pt-8 border-t border-gray-200">
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <svg class="w-5 h-5 text-jt-brown-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/>
+                                </svg>
+                                <span>Free Shipping</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <svg class="w-5 h-5 text-jt-brown-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                </svg>
+                                <span>Secure Payment</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Products -->
+                <section>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-8">You May Also Like</h2>
+                    <div id="related-products" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Related products will be loaded here -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-jt-brown-700 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <div class="w-10 h-10 bg-jt-brown-100 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-jt-brown-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                    </svg>
+                </div>
+                <span class="text-lg font-bold">JT Mobamba</span>
+            </div>
+            <p class="text-sm text-jt-brown-100">&copy; 2026 JT Mobamba Electronics. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300">
+        <div class="flex flex-col h-full">
+            <div class="flex items-center justify-between p-4 border-b border-gray-100">
+                <h2 class="text-xl font-bold text-gray-900">Shopping Cart</h2>
+                <button id="cart-close" class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="cart-sidebar-content" class="flex-1 overflow-y-auto"></div>
+            <div class="border-t border-gray-100 p-4 bg-jt-cream">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-gray-600">Subtotal</span>
+                    <span id="cart-total" class="text-2xl font-bold text-gray-900">£0.00</span>
+                </div>
+                <button id="checkout-btn" onclick="window.location.href='checkout.html'"
+                        class="w-full py-4 bg-jt-brown-300 text-white font-bold rounded-xl hover:bg-jt-brown-400 transition-all">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        #cart-sidebar.active {
+            transform: translateX(0);
+        }
+    </style>
+
+    <script src="js/shop.js"></script>
+    <script src="js/search.js"></script>
+    <script>
+        // State
+        let currentProduct = null;
+        let currentCategory = 'all';
+        let currentSort = 'default';
+        let featuredIndex = 0;
+        let filteredProducts = [];
+
+        // Get product ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        // Category name mapping
+        const categoryNames = {
+            'all': 'All Products',
+            'audio': 'Audio',
+            'wearables': 'Wearables',
+            'laptops': 'Laptops',
+            'smartphones': 'Smartphones',
+            'cameras': 'Cameras',
+            'smart-home': 'Smart Home'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            if (productId) {
+                showDetailView(productId);
+            } else {
+                showGalleryView();
+            }
+            setupCartSidebar();
+            setupQuantityControls();
+        });
+
+        // Show Gallery View
+        function showGalleryView() {
+            document.getElementById('gallery-view').classList.remove('hidden');
+            document.getElementById('detail-view').classList.add('hidden');
+
+            // Update URL without reload
+            window.history.pushState({}, '', 'product.html');
+            document.title = 'Product Gallery - JT Mobamba Electronics';
+
+            filterByCategory('all');
+            updateFeaturedProduct();
+        }
+
+        // Show Detail View
+        function showDetailView(id) {
+            const product = DEMO_PRODUCTS.find(p => p.id === id);
+            if (!product) {
+                showGalleryView();
+                return;
+            }
+
+            currentProduct = product;
+            document.getElementById('gallery-view').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+
+            // Update URL
+            window.history.pushState({}, '', `product.html?id=${id}`);
+
+            loadProductDetail();
+        }
+
+        // Filter by Category
+        function filterByCategory(category) {
+            currentCategory = category;
+
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.category === category) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Filter products
+            if (category === 'all') {
+                filteredProducts = [...DEMO_PRODUCTS];
+            } else {
+                filteredProducts = DEMO_PRODUCTS.filter(p => p.category === category);
+            }
+
+            // Update title
+            document.getElementById('category-title').textContent = categoryNames[category] || 'Products';
+            document.getElementById('product-count').textContent = `(${filteredProducts.length} items)`;
+
+            // Apply sort and render
+            sortProducts();
+        }
+
+        // Sort Products
+        function sortProducts() {
+            currentSort = document.getElementById('sort-select').value;
+
+            const sorted = [...filteredProducts];
+            switch (currentSort) {
+                case 'price-low':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+                    break;
+            }
+
+            renderProductsGrid(sorted);
+        }
+
+        // Render Products Grid
+        function renderProductsGrid(products) {
+            const grid = document.getElementById('products-grid');
+
+            if (products.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <p class="text-gray-500 text-lg">No products found in this category.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = products.map(product => `
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-sm cursor-pointer" onclick="showDetailView('${product.id}')">
+                    <div class="relative">
+                        <img src="${product.image}" alt="${product.title}" class="w-full h-48 object-cover">
+                        ${product.badge === 'sale' ? `<span class="absolute top-3 left-3 px-2 py-1 bg-red-500 text-white text-xs font-medium rounded">-${product.discount}%</span>` : ''}
+                        ${product.badge === 'new' ? `<span class="absolute top-3 left-3 px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded">New</span>` : ''}
+                        ${product.badge === 'bestseller' ? `<span class="absolute top-3 left-3 px-2 py-1 bg-green-500 text-white text-xs font-medium rounded">Best Seller</span>` : ''}
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-gray-500 mb-1">${categoryNames[product.category] || product.category}</p>
+                        <h3 class="font-medium text-gray-900 mb-2">${product.title}</h3>
+                        <div class="flex items-center gap-1 mb-3">
+                            <div class="flex text-yellow-400">
+                                ${Array(5).fill().map((_, i) => `
+                                    <svg class="w-4 h-4 ${i < (product.rating || 4) ? 'fill-current' : 'fill-current text-gray-300'}" viewBox="0 0 24 24">
+                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                `).join('')}
+                            </div>
+                            <span class="text-xs text-gray-500">(${product.reviews || 0})</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-lg font-bold text-gray-900">£${product.price.toFixed(2)}</span>
+                                ${product.originalPrice ? `<span class="text-sm text-gray-400 line-through ml-2">£${product.originalPrice.toFixed(2)}</span>` : ''}
+                            </div>
+                            <button onclick="event.stopPropagation(); quickAddToCart('${product.id}')" class="p-2 bg-jt-brown-300 text-white rounded-lg hover:bg-jt-brown-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Featured Product Navigation
+        function updateFeaturedProduct() {
+            const products = DEMO_PRODUCTS;
+            if (products.length === 0) return;
+
+            const product = products[featuredIndex];
+
+            document.getElementById('featured-image').src = product.image;
+            document.getElementById('featured-image').alt = product.title;
+            document.getElementById('featured-title').textContent = product.title;
+            document.getElementById('featured-category').textContent = categoryNames[product.category] || product.category;
+            document.getElementById('featured-price').textContent = `£${product.price.toFixed(2)}`;
+
+            const originalEl = document.getElementById('featured-original');
+            if (product.originalPrice) {
+                originalEl.textContent = `£${product.originalPrice.toFixed(2)}`;
+                originalEl.classList.remove('hidden');
+            } else {
+                originalEl.classList.add('hidden');
+            }
+
+            const badgeEl = document.getElementById('featured-badge');
+            if (product.badge === 'sale') {
+                badgeEl.textContent = `-${product.discount}%`;
+                badgeEl.className = 'inline-block px-3 py-1 bg-red-500 text-white text-sm font-medium rounded w-fit mb-4';
+            } else if (product.badge === 'new') {
+                badgeEl.textContent = 'New';
+                badgeEl.className = 'inline-block px-3 py-1 bg-blue-500 text-white text-sm font-medium rounded w-fit mb-4';
+            } else if (product.badge === 'bestseller') {
+                badgeEl.textContent = 'Best Seller';
+                badgeEl.className = 'inline-block px-3 py-1 bg-green-500 text-white text-sm font-medium rounded w-fit mb-4';
+            } else {
+                badgeEl.classList.add('hidden');
+            }
+
+            // Update dots
+            const dotsContainer = document.getElementById('featured-dots');
+            dotsContainer.innerHTML = products.map((_, i) => `
+                <button onclick="goToFeatured(${i})" class="w-2 h-2 rounded-full ${i === featuredIndex ? 'bg-jt-brown-300' : 'bg-gray-300'} transition-colors"></button>
+            `).join('');
+        }
+
+        function prevFeatured() {
+            featuredIndex = (featuredIndex - 1 + DEMO_PRODUCTS.length) % DEMO_PRODUCTS.length;
+            updateFeaturedProduct();
+        }
+
+        function nextFeatured() {
+            featuredIndex = (featuredIndex + 1) % DEMO_PRODUCTS.length;
+            updateFeaturedProduct();
+        }
+
+        function goToFeatured(index) {
+            featuredIndex = index;
+            updateFeaturedProduct();
+        }
+
+        function viewProductDetail() {
+            const product = DEMO_PRODUCTS[featuredIndex];
+            showDetailView(product.id);
+        }
+
+        function addFeaturedToCart() {
+            const product = DEMO_PRODUCTS[featuredIndex];
+            cart.addItem(product);
+        }
+
+        // Quick Add to Cart
+        function quickAddToCart(productId) {
+            const product = DEMO_PRODUCTS.find(p => p.id === productId);
+            if (product) {
+                cart.addItem(product);
+            }
+        }
+
+        // Load Product Detail
+        function loadProductDetail() {
+            if (!currentProduct) return;
+
+            // Update page title
+            document.title = `${currentProduct.title} - JT Mobamba Electronics`;
+
+            // Update breadcrumb
+            document.getElementById('breadcrumb-product').textContent = currentProduct.title;
+
+            // Update main image
+            document.getElementById('main-image').src = currentProduct.image;
+            document.getElementById('main-image').alt = currentProduct.title;
+
+            // Update product info
+            document.getElementById('product-title').textContent = currentProduct.title;
+            document.getElementById('product-price').textContent = `£${currentProduct.price.toFixed(2)}`;
+
+            // Badge
+            const badge = document.getElementById('product-badge');
+            if (currentProduct.badge === 'sale' && currentProduct.discount) {
+                badge.textContent = `-${currentProduct.discount}%`;
+                badge.className = 'inline-block px-3 py-1 bg-red-500 text-white text-sm font-medium rounded';
+            } else if (currentProduct.badge === 'new') {
+                badge.textContent = 'New';
+                badge.className = 'inline-block px-3 py-1 bg-blue-500 text-white text-sm font-medium rounded';
+            } else if (currentProduct.badge === 'bestseller') {
+                badge.textContent = 'Best Seller';
+                badge.className = 'inline-block px-3 py-1 bg-green-500 text-white text-sm font-medium rounded';
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            // Original price and discount
+            const originalPriceEl = document.getElementById('product-original-price');
+            const discountEl = document.getElementById('product-discount');
+
+            if (currentProduct.originalPrice) {
+                originalPriceEl.textContent = `£${currentProduct.originalPrice.toFixed(2)}`;
+                const savings = currentProduct.originalPrice - currentProduct.price;
+                discountEl.textContent = `Save £${savings.toFixed(2)}`;
+            } else {
+                originalPriceEl.classList.add('hidden');
+                discountEl.classList.add('hidden');
+            }
+
+            // Rating stars
+            const starsContainer = document.getElementById('product-stars');
+            const rating = currentProduct.rating || 4;
+            starsContainer.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('svg');
+                star.className = `w-5 h-5 ${i <= rating ? 'fill-current' : 'fill-current text-gray-300'}`;
+                star.setAttribute('viewBox', '0 0 24 24');
+                star.innerHTML = '<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>';
+                starsContainer.appendChild(star);
+            }
+
+            document.getElementById('product-rating').textContent = `${rating.toFixed(1)} rating`;
+            document.getElementById('product-reviews').textContent = `${currentProduct.reviews || 0} reviews`;
+
+            // Load related products
+            loadRelatedProducts();
+        }
+
+        // Load Related Products
+        function loadRelatedProducts() {
+            const container = document.getElementById('related-products');
+            const relatedProducts = DEMO_PRODUCTS.filter(p =>
+                p.id !== currentProduct.id &&
+                (p.category === currentProduct.category || Math.random() > 0.5)
+            ).slice(0, 4);
+
+            container.innerHTML = relatedProducts.map(product => `
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-sm cursor-pointer" onclick="showDetailView('${product.id}')">
+                    <div class="relative">
+                        <img src="${product.image}" alt="${product.title}" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-1">${product.title}</h3>
+                        <div class="flex items-center gap-1 mb-2">
+                            <div class="flex text-yellow-400">
+                                ${Array(5).fill().map((_, i) => `
+                                    <svg class="w-4 h-4 ${i < product.rating ? 'fill-current' : 'fill-current text-gray-300'}" viewBox="0 0 24 24">
+                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg font-bold text-gray-900">£${product.price.toFixed(2)}</span>
+                            <button onclick="event.stopPropagation(); quickAddToCart('${product.id}')" class="p-2 bg-jt-brown-300 text-white rounded-lg hover:bg-jt-brown-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Setup Quantity Controls
+        function setupQuantityControls() {
+            document.getElementById('qty-decrease').addEventListener('click', () => {
+                const input = document.getElementById('quantity');
+                if (parseInt(input.value) > 1) {
+                    input.value = parseInt(input.value) - 1;
+                }
+            });
+
+            document.getElementById('qty-increase').addEventListener('click', () => {
+                const input = document.getElementById('quantity');
+                input.value = parseInt(input.value) + 1;
+            });
+
+            document.getElementById('add-to-cart').addEventListener('click', () => {
+                if (!currentProduct) return;
+                const quantity = parseInt(document.getElementById('quantity').value);
+                const productWithQty = { ...currentProduct, quantity };
+                cart.addItem(productWithQty);
+            });
+        }
+
+        // Setup Cart Sidebar
+        function setupCartSidebar() {
+            const cartToggle = document.getElementById('cart-toggle');
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const cartClose = document.getElementById('cart-close');
+            const cartOverlay = document.getElementById('cart-overlay');
+
+            cartToggle.addEventListener('click', () => {
+                cartSidebar.classList.add('active');
+                cartOverlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+
+            cartClose.addEventListener('click', closeCart);
+            cartOverlay.addEventListener('click', closeCart);
+
+            function closeCart() {
+                cartSidebar.classList.remove('active');
+                cartOverlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (id) {
+                showDetailView(id);
+            } else {
+                showGalleryView();
+            }
+        });
+
+        // Auto-rotate featured product
+        setInterval(() => {
+            if (!document.getElementById('gallery-view').classList.contains('hidden')) {
+                nextFeatured();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

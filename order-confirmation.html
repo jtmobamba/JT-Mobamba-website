@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - JT Mobamba Electronics</title>
+    <link rel="icon" type="image/svg+xml" href="logo (1).svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        'jt-cream': '#FFF8F0',
+                        'jt-brown': {
+                            50: '#FFF8F0',
+                            100: '#E8C5B0',
+                            200: '#D4A88A',
+                            300: '#C4815D',
+                            400: '#A66B4A',
+                            500: '#8B5A3C',
+                            600: '#704830',
+                            700: '#553624',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #FFF8F0;
+        }
+        .checkmark-circle {
+            animation: scale-in 0.5s ease-out;
+        }
+        .checkmark-path {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: draw-check 0.6s ease-out 0.3s forwards;
+        }
+        @keyframes scale-in {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes draw-check {
+            to { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen font-inter">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center h-16">
+                <a href="homepage.html" class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-jt-brown-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-jt-brown-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">JT Mobamba</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto px-4 py-16">
+        <!-- Success Card -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 text-center">
+            <!-- Animated Checkmark -->
+            <div class="w-24 h-24 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center checkmark-circle">
+                <svg class="w-12 h-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path class="checkmark-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Order Confirmed!</h1>
+            <p class="text-gray-600 mb-8">Thank you for your purchase. Your order has been received and is being processed.</p>
+
+            <!-- Order Details -->
+            <div class="bg-jt-cream rounded-xl p-6 mb-8 text-left">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-gray-500">Order Number</span>
+                    <span class="font-mono font-bold text-gray-900">#JTM-<span id="order-number">000000</span></span>
+                </div>
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-gray-500">Estimated Delivery</span>
+                    <span class="font-medium text-gray-900" id="delivery-date">Loading...</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-500">Email Confirmation</span>
+                    <span class="font-medium text-green-600">Sent</span>
+                </div>
+            </div>
+
+            <!-- What's Next -->
+            <div class="text-left mb-8">
+                <h3 class="font-semibold text-gray-900 mb-4">What's Next?</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-jt-brown-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <span class="text-jt-brown-300 font-bold text-sm">1</span>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900">Order Processing</p>
+                            <p class="text-sm text-gray-500">We're preparing your items for shipment</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-jt-brown-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <span class="text-jt-brown-300 font-bold text-sm">2</span>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900">Shipping Notification</p>
+                            <p class="text-sm text-gray-500">You'll receive tracking info via email</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-jt-brown-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <span class="text-jt-brown-300 font-bold text-sm">3</span>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900">Delivery</p>
+                            <p class="text-sm text-gray-500">Your package will arrive at your doorstep</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="homepage.html" class="flex-1 py-3 px-6 bg-jt-brown-300 text-white font-semibold rounded-xl hover:bg-jt-brown-400 transition-colors text-center">
+                    Continue Shopping
+                </a>
+                <button onclick="window.print()" class="flex-1 py-3 px-6 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors">
+                    Print Receipt
+                </button>
+            </div>
+        </div>
+
+        <!-- Support Info -->
+        <div class="mt-8 text-center">
+            <p class="text-gray-500 text-sm mb-2">Need help with your order?</p>
+            <a href="mailto:support@jtmobamba.com" class="text-jt-brown-300 font-medium hover:underline">Contact Support</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-jt-brown-700 text-white py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-jt-brown-100 text-sm">&copy; 2026 JT Mobamba Electronics. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Generate random order number
+        document.getElementById('order-number').textContent = Math.floor(100000 + Math.random() * 900000);
+
+        // Calculate delivery date (5-7 days from now)
+        const deliveryDate = new Date();
+        deliveryDate.setDate(deliveryDate.getDate() + 5 + Math.floor(Math.random() * 3));
+        const options = { weekday: 'long', month: 'long', day: 'numeric' };
+        document.getElementById('delivery-date').textContent = deliveryDate.toLocaleDateString('en-US', options);
+    </script>
+</body>
+</html>

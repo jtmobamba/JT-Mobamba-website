@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - JT Mobamba MCP SDK</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C4815D' stroke-width='2'><path d='M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .docs-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+        .docs-sidebar {
+            background: var(--color-card);
+            border-right: 1px solid var(--color-border);
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .docs-content {
+            padding: 2rem 3rem;
+            max-width: 900px;
+        }
+        .docs-nav-section {
+            margin-bottom: 1.5rem;
+        }
+        .docs-nav-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            margin-bottom: 0.75rem;
+        }
+        .docs-nav-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            transition: all 0.15s;
+        }
+        .docs-nav-link:hover, .docs-nav-link.active {
+            background: var(--color-accent-light);
+            color: var(--color-accent);
+        }
+        .code-block {
+            background: #1E1E1E;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            position: relative;
+        }
+        .code-block pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8125rem;
+            color: #D4D4D4;
+            line-height: 1.6;
+        }
+        .code-block .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.375rem 0.75rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 4px;
+            color: #9CA3AF;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .code-block .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        .code-lang {
+            position: absolute;
+            top: 0.5rem;
+            left: 1rem;
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            color: #6B7280;
+            font-weight: 500;
+        }
+        .docs-section {
+            margin-bottom: 3rem;
+        }
+        .docs-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .docs-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+        }
+        .docs-section p {
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        .platform-tabs {
+            display: flex;
+            gap: 0.25rem;
+            background: var(--color-bg-secondary);
+            border-radius: 8px;
+            padding: 0.25rem;
+            margin-bottom: 1rem;
+        }
+        .platform-tab {
+            padding: 0.625rem 1.25rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: none;
+            background: none;
+            color: var(--color-text-secondary);
+        }
+        .platform-tab:hover {
+            color: var(--color-text-primary);
+        }
+        .platform-tab.active {
+            background: var(--color-card);
+            color: var(--color-accent);
+            box-shadow: var(--shadow-sm);
+        }
+        .platform-content {
+            display: none;
+        }
+        .platform-content.active {
+            display: block;
+        }
+        .install-cmd {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--color-bg-secondary);
+            padding: 0.875rem 1rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+        .install-cmd code {
+            flex: 1;
+        }
+        .endpoint-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .endpoint-method {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .endpoint-method.get { background: #DBEAFE; color: #1D4ED8; }
+        .endpoint-method.post { background: #D1FAE5; color: #059669; }
+        .endpoint-method.put { background: #FEF3C7; color: #D97706; }
+        .endpoint-method.delete { background: #FEE2E2; color: #DC2626; }
+        .endpoint-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+        }
+        .endpoint-desc {
+            font-size: 0.8125rem;
+            color: var(--color-text-secondary);
+        }
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .param-table th, .param-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+            font-size: 0.875rem;
+        }
+        .param-table th {
+            background: var(--color-bg-secondary);
+            font-weight: 600;
+        }
+        .param-name {
+            font-family: 'Fira Code', monospace;
+            color: var(--color-accent);
+        }
+        .param-type {
+            font-family: 'Fira Code', monospace;
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .alert-info {
+            background: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            color: #1E40AF;
+        }
+        .alert-warning {
+            background: #FEF3C7;
+            border: 1px solid #FDE68A;
+            color: #92400E;
+        }
+        @media (max-width: 768px) {
+            .docs-layout {
+                grid-template-columns: 1fr;
+            }
+            .docs-sidebar {
+                position: fixed;
+                left: -100%;
+                z-index: 100;
+                transition: left 0.3s;
+            }
+            .docs-sidebar.open {
+                left: 0;
+            }
+            .docs-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="docs-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="docs-sidebar">
+            <div class="flex items-center gap-3 mb-8">
+                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                </svg>
+                <span class="font-semibold text-lg">JT Mobamba</span>
+            </div>
+
+            <nav>
+                <div class="docs-nav-section">
+                    <div class="docs-nav-title">Getting Started</div>
+                    <a href="#introduction" class="docs-nav-link active">Introduction</a>
+                    <a href="#quickstart" class="docs-nav-link">Quick Start</a>
+                    <a href="#authentication" class="docs-nav-link">Authentication</a>
+                </div>
+
+                <div class="docs-nav-section">
+                    <div class="docs-nav-title">SDK Installation</div>
+                    <a href="#nodejs" class="docs-nav-link">Node.js / NPM</a>
+                    <a href="#python" class="docs-nav-link">Python / pip</a>
+                    <a href="#flutter" class="docs-nav-link">Flutter / Dart</a>
+                    <a href="#reactnative" class="docs-nav-link">React Native</a>
+                </div>
+
+                <div class="docs-nav-section">
+                    <div class="docs-nav-title">API Reference</div>
+                    <a href="#api-endpoints" class="docs-nav-link">Endpoints</a>
+                    <a href="#crud-operations" class="docs-nav-link">CRUD Operations</a>
+                    <a href="#sql-queries" class="docs-nav-link">SQL Queries</a>
+                    <a href="#error-handling" class="docs-nav-link">Error Handling</a>
+                </div>
+
+                <div class="docs-nav-section">
+                    <div class="docs-nav-title">Resources</div>
+                    <a href="dashboard.html" class="docs-nav-link">Dashboard</a>
+                    <a href="homepage.html" class="docs-nav-link">Home</a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="docs-content">
+            <!-- Introduction -->
+            <section id="introduction" class="docs-section">
+                <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">JT Mobamba MCP SDK</h1>
+                <p style="font-size: 1.125rem; color: var(--color-text-secondary);">
+                    Connect your applications to JT Mobamba Cloud Database with our official SDKs.
+                </p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center">
+                        <div class="text-2xl mb-2">📦</div>
+                        <div class="font-semibold">Node.js</div>
+                        <div class="text-xs text-gray-500">npm install</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center">
+                        <div class="text-2xl mb-2">🐍</div>
+                        <div class="font-semibold">Python</div>
+                        <div class="text-xs text-gray-500">pip install</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center">
+                        <div class="text-2xl mb-2">📱</div>
+                        <div class="font-semibold">Flutter</div>
+                        <div class="text-xs text-gray-500">pub add</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center">
+                        <div class="text-2xl mb-2">⚛️</div>
+                        <div class="font-semibold">React Native</div>
+                        <div class="text-xs text-gray-500">npm install</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Start -->
+            <section id="quickstart" class="docs-section">
+                <h2>Quick Start</h2>
+                <p>Get started with JT Mobamba in just 3 steps:</p>
+
+                <h3>1. Get Your API Credentials</h3>
+                <p>Go to your <a href="dashboard.html#api" class="text-accent">Dashboard API section</a>, select a collection, and create an API key. You'll receive:</p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><strong>API Key</strong> - Public identifier (starts with <code>jtm_</code>)</li>
+                    <li><strong>Secret Key</strong> - Private key (starts with <code>jtms_</code>)</li>
+                </ul>
+
+                <div class="alert alert-warning">
+                    <strong>Important:</strong> Save your secret key immediately! It will only be shown once.
+                </div>
+
+                <h3>2. Install the SDK</h3>
+                <div class="platform-tabs">
+                    <button class="platform-tab active" data-platform="nodejs">Node.js</button>
+                    <button class="platform-tab" data-platform="python">Python</button>
+                    <button class="platform-tab" data-platform="flutter">Flutter</button>
+                    <button class="platform-tab" data-platform="reactnative">React Native</button>
+                </div>
+
+                <div id="install-nodejs" class="platform-content active">
+                    <div class="install-cmd">
+                        <code>npm install jtmobamba-mcp</code>
+                        <button class="btn btn-ghost btn-sm" onclick="copyText('npm install jtmobamba-mcp')">Copy</button>
+                    </div>
+                </div>
+                <div id="install-python" class="platform-content">
+                    <div class="install-cmd">
+                        <code>pip install jtmobamba-mcp</code>
+                        <button class="btn btn-ghost btn-sm" onclick="copyText('pip install jtmobamba-mcp')">Copy</button>
+                    </div>
+                </div>
+                <div id="install-flutter" class="platform-content">
+                    <div class="install-cmd">
+                        <code>flutter pub add jtmobamba_mcp</code>
+                        <button class="btn btn-ghost btn-sm" onclick="copyText('flutter pub add jtmobamba_mcp')">Copy</button>
+                    </div>
+                </div>
+                <div id="install-reactnative" class="platform-content">
+                    <div class="install-cmd">
+                        <code>npm install jtmobamba-mcp-react-native</code>
+                        <button class="btn btn-ghost btn-sm" onclick="copyText('npm install jtmobamba-mcp-react-native')">Copy</button>
+                    </div>
+                </div>
+
+                <h3>3. Connect and Query</h3>
+                <div id="code-nodejs" class="platform-content active">
+                    <div class="code-block">
+                        <span class="code-lang">JavaScript</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>const JTMobamba = require('jtmobamba-mcp');
+
+// Initialize the client
+const db = new JTMobamba({
+    apiKey: 'jtm_your_api_key',
+    secretKey: 'jtms_your_secret_key',
+    baseUrl: 'https://your-server.com/api/database/v1/data'
+});
+
+// Read data
+const users = await db.table('users').select();
+console.log(users.data);
+
+// Insert data
+await db.table('users').insert({
+    name: 'John Doe',
+    email: 'john@example.com'
+});</pre>
+                    </div>
+                </div>
+
+                <div id="code-python" class="platform-content">
+                    <div class="code-block">
+                        <span class="code-lang">Python</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>from jtmobamba import JTMobamba
+
+# Initialize the client
+db = JTMobamba(
+    api_key='jtm_your_api_key',
+    secret_key='jtms_your_secret_key',
+    base_url='https://your-server.com/api/database/v1/data'
+)
+
+# Read data
+users = db.table('users').select()
+print(users.data)
+
+# Insert data
+db.table('users').insert({
+    'name': 'John Doe',
+    'email': 'john@example.com'
+})</pre>
+                    </div>
+                </div>
+
+                <div id="code-flutter" class="platform-content">
+                    <div class="code-block">
+                        <span class="code-lang">Dart</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>import 'package:jtmobamba_mcp/jtmobamba_mcp.dart';
+
+// Initialize the client
+final db = JTMobamba(
+  apiKey: 'jtm_your_api_key',
+  secretKey: 'jtms_your_secret_key',
+  baseUrl: 'https://your-server.com/api/database/v1/data',
+);
+
+// Read data
+final users = await db.table('users').select();
+print(users);
+
+// Insert data
+await db.table('users').insert({
+  'name': 'John Doe',
+  'email': 'john@example.com',
+});</pre>
+                    </div>
+                </div>
+
+                <div id="code-reactnative" class="platform-content">
+                    <div class="code-block">
+                        <span class="code-lang">React Native</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>import JTMobamba from 'jtmobamba-mcp-react-native';
+
+// Initialize the client
+const db = new JTMobamba({
+  apiKey: 'jtm_your_api_key',
+  secretKey: 'jtms_your_secret_key',
+  baseUrl: 'https://your-server.com/api/database/v1/data'
+});
+
+// Read data
+const users = await db.table('users').select();
+console.log(users.data);
+
+// Insert data
+await db.table('users').insert({
+  name: 'John Doe',
+  email: 'john@example.com'
+});</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Authentication -->
+            <section id="authentication" class="docs-section">
+                <h2>Authentication</h2>
+                <p>All API requests require authentication using your API Key and Secret Key. Include these headers in every request:</p>
+
+                <div class="code-block">
+                    <span class="code-lang">HTTP Headers</span>
+<pre>X-API-Key: jtm_your_api_key
+X-API-Secret: jtms_your_secret_key
+Content-Type: application/json</pre>
+                </div>
+
+                <h3>Permissions</h3>
+                <p>API keys have configurable permissions:</p>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Permission</th>
+                            <th>Description</th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="param-name">read</span></td>
+                            <td>Read data from tables</td>
+                            <td>SELECT, SHOW TABLES, DESCRIBE</td>
+                        </tr>
+                        <tr>
+                            <td><span class="param-name">insert</span></td>
+                            <td>Insert new rows</td>
+                            <td>INSERT</td>
+                        </tr>
+                        <tr>
+                            <td><span class="param-name">update</span></td>
+                            <td>Update existing rows</td>
+                            <td>UPDATE</td>
+                        </tr>
+                        <tr>
+                            <td><span class="param-name">delete</span></td>
+                            <td>Delete rows</td>
+                            <td>DELETE</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- API Endpoints -->
+            <section id="api-endpoints" class="docs-section">
+                <h2>API Endpoints</h2>
+                <p>Base URL: <code>https://your-server.com/api/database/v1/data</code></p>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method get">GET</span>
+                        <span class="endpoint-path">/info</span>
+                    </div>
+                    <div class="endpoint-desc">Get collection information and list of tables</div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method get">GET</span>
+                        <span class="endpoint-path">/tables</span>
+                    </div>
+                    <div class="endpoint-desc">List all tables in the collection</div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method get">GET</span>
+                        <span class="endpoint-path">/tables/:tableName</span>
+                    </div>
+                    <div class="endpoint-desc">Get table structure and column definitions</div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method get">GET</span>
+                        <span class="endpoint-path">/tables/:tableName/rows</span>
+                    </div>
+                    <div class="endpoint-desc">Read rows from a table (supports pagination and filtering)</div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method post">POST</span>
+                        <span class="endpoint-path">/tables/:tableName/rows</span>
+                    </div>
+                    <div class="endpoint-desc">Insert one or more rows into a table</div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method put">PUT</span>
+                        <span class="endpoint-path">/tables/:tableName/rows/:rowId</span>
+                    </div>
+                    <div class="endpoint-desc">Update a specific row by ID</div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method delete">DELETE</span>
+                        <span class="endpoint-path">/tables/:tableName/rows/:rowId</span>
+                    </div>
+                    <div class="endpoint-desc">Delete a specific row by ID</div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method post">POST</span>
+                        <span class="endpoint-path">/sql</span>
+                    </div>
+                    <div class="endpoint-desc">Execute a raw SQL query</div>
+                </div>
+            </section>
+
+            <!-- CRUD Operations -->
+            <section id="crud-operations" class="docs-section">
+                <h2>CRUD Operations</h2>
+
+                <h3>Create (Insert)</h3>
+                <p>Insert a single row:</p>
+                <div class="code-block">
+                    <span class="code-lang">JavaScript</span>
+<pre>// Insert single row
+const result = await db.table('users').insert({
+    name: 'John Doe',
+    email: 'john@example.com',
+    age: 30
+});
+
+console.log(result.rowId); // New row ID</pre>
+                </div>
+
+                <p>Insert multiple rows:</p>
+                <div class="code-block">
+                    <span class="code-lang">JavaScript</span>
+<pre>// Insert multiple rows
+const result = await db.table('users').insert([
+    { name: 'Alice', email: 'alice@example.com' },
+    { name: 'Bob', email: 'bob@example.com' }
+]);
+
+console.log(result.rows); // Array of inserted rows</pre>
+                </div>
+
+                <h3>Read (Select)</h3>
+                <p>Query data with filters, pagination, and ordering:</p>
+                <div class="code-block">
+                    <span class="code-lang">JavaScript</span>
+<pre>// Get all rows
+const all = await db.table('users').select();
+
+// Filter rows
+const filtered = await db.table('users')
+    .where({ age: 30 })
+    .select();
+
+// Pagination
+const paginated = await db.table('users')
+    .page(1, 10)  // page 1, 10 items per page
+    .orderBy('created_at', 'DESC')
+    .select();
+
+// Get first matching row
+const user = await db.table('users')
+    .where({ email: 'john@example.com' })
+    .first();</pre>
+                </div>
+
+                <h3>Update</h3>
+                <div class="code-block">
+                    <span class="code-lang">JavaScript</span>
+<pre>// Update by ID
+await db.table('users').updateById(1, {
+    name: 'Jane Doe',
+    age: 31
+});
+
+// Update with WHERE conditions
+await db.table('users')
+    .where({ status: 'pending' })
+    .update({ status: 'active' });</pre>
+                </div>
+
+                <h3>Delete</h3>
+                <div class="code-block">
+                    <span class="code-lang">JavaScript</span>
+<pre>// Delete by ID
+await db.table('users').deleteById(1);
+
+// Delete with WHERE conditions
+await db.table('users')
+    .where({ status: 'inactive' })
+    .delete();</pre>
+                </div>
+            </section>
+
+            <!-- SQL Queries -->
+            <section id="sql-queries" class="docs-section">
+                <h2>SQL Queries</h2>
+                <p>Execute raw SQL queries for complex operations:</p>
+
+                <div class="code-block">
+                    <span class="code-lang">JavaScript</span>
+<pre>// SELECT query
+const result = await db.sql('SELECT * FROM users WHERE age > 25 ORDER BY name');
+console.log(result.result.rows);
+
+// INSERT query
+await db.sql(`INSERT INTO users (name, email) VALUES ('John', 'john@example.com')`);
+
+// UPDATE query
+await db.sql(`UPDATE users SET status = 'active' WHERE id = 1`);
+
+// DELETE query
+await db.sql(`DELETE FROM users WHERE status = 'inactive'`);</pre>
+                </div>
+
+                <h3>Supported SQL Statements</h3>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Statement</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SELECT</td>
+                            <td><code>SELECT * FROM table WHERE col = 'value'</code></td>
+                        </tr>
+                        <tr>
+                            <td>INSERT</td>
+                            <td><code>INSERT INTO table (col1, col2) VALUES ('a', 'b')</code></td>
+                        </tr>
+                        <tr>
+                            <td>UPDATE</td>
+                            <td><code>UPDATE table SET col = 'value' WHERE id = 1</code></td>
+                        </tr>
+                        <tr>
+                            <td>DELETE</td>
+                            <td><code>DELETE FROM table WHERE id = 1</code></td>
+                        </tr>
+                        <tr>
+                            <td>SHOW TABLES</td>
+                            <td><code>SHOW TABLES</code></td>
+                        </tr>
+                        <tr>
+                            <td>DESCRIBE</td>
+                            <td><code>DESCRIBE tablename</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Error Handling -->
+            <section id="error-handling" class="docs-section">
+                <h2>Error Handling</h2>
+                <p>Handle errors gracefully in your application:</p>
+
+                <div class="code-block">
+                    <span class="code-lang">JavaScript</span>
+<pre>try {
+    const users = await db.table('users').select();
+} catch (error) {
+    if (error.message.includes('Invalid API key')) {
+        console.error('Authentication failed');
+    } else if (error.message.includes('Rate limit')) {
+        console.error('Too many requests, please slow down');
+    } else {
+        console.error('Error:', error.message);
+    }
+}</pre>
+                </div>
+
+                <h3>Common Error Codes</h3>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Error</th>
+                            <th>Cause</th>
+                            <th>Solution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Invalid API key</td>
+                            <td>API key is incorrect or doesn't exist</td>
+                            <td>Check your API key in the dashboard</td>
+                        </tr>
+                        <tr>
+                            <td>Invalid secret key</td>
+                            <td>Secret key doesn't match the API key</td>
+                            <td>Regenerate secret key if lost</td>
+                        </tr>
+                        <tr>
+                            <td>Rate limit exceeded</td>
+                            <td>Too many requests per hour</td>
+                            <td>Wait or increase rate limit</td>
+                        </tr>
+                        <tr>
+                            <td>Permission denied</td>
+                            <td>API key lacks required permission</td>
+                            <td>Update API key permissions</td>
+                        </tr>
+                        <tr>
+                            <td>Table not found</td>
+                            <td>Table doesn't exist in collection</td>
+                            <td>Create the table first</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Platform tab switching
+        document.querySelectorAll('.platform-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const platform = tab.dataset.platform;
+
+                // Update tabs
+                document.querySelectorAll('.platform-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Update install content
+                document.querySelectorAll('[id^="install-"]').forEach(c => c.classList.remove('active'));
+                document.getElementById(`install-${platform}`)?.classList.add('active');
+
+                // Update code content
+                document.querySelectorAll('[id^="code-"]').forEach(c => c.classList.remove('active'));
+                document.getElementById(`code-${platform}`)?.classList.add('active');
+            });
+        });
+
+        // Copy text to clipboard
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            showToast('Copied to clipboard!');
+        }
+
+        // Copy code block
+        function copyCode(btn) {
+            const code = btn.parentElement.querySelector('pre').textContent;
+            navigator.clipboard.writeText(code);
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 2000);
+        }
+
+        // Simple toast notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('.docs-nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+
+                    // Update active state
+                    document.querySelectorAll('.docs-nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
