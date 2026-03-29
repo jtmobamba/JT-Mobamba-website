@@ -4,8 +4,8 @@
   "description": "JT Mobamba Electronics - Premium Electronics Store",
   "main": "server.js",
   "scripts": {
-    "start": "cd server && node server.js",
-    "dev": "cd server && nodemon server.js",
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
     "server": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
