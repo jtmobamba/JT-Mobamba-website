@@ -3,6 +3,13 @@ node_modules/
 .env.local
 *.log
 nul
-*.png
 server/node_modules/
 server/.env
+
+# Desktop app release files (too large for git)
+release/
+render-cli/
+render-cli.zip
+
+# Keep these images (remove *.png exclusion)
+# *.png

@@ -1,0 +1,27 @@
+# Render.com deployment configuration
+# JT Mobamba Electronics Website
+
+services:
+  # Web Service - Node.js Backend with Static Frontend
+  - type: web
+    name: jt-mobamba-website
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: RESEND_API_KEY
+        sync: false
+    healthCheckPath: /api/health
+    autoDeploy: true
